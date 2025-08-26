@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 import sys
 import warnings
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from datetime import datetime
 
@@ -8,17 +11,12 @@ from debate.crew import Debate
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
-# This main file is intended to be a way for you to run your
-# crew locally, so refrain from adding unnecessary logic into this file.
-# Replace with inputs you want to test with, it will automatically
-# interpolate any tasks and agents information
-
 
 def run():
     """
     Run the crew.
     """
-    inputs = {"topic": "AI LLMs", "current_year": str(datetime.now().year)}
+    inputs: dict[str, str] = {"motion": "There needs to be strict regulations on LLMs"}
 
     try:
         Debate().crew().kickoff(inputs=inputs)
@@ -30,7 +28,7 @@ def train():
     """
     Train the crew for a given number of iterations.
     """
-    inputs = {"topic": "AI LLMs", "current_year": str(datetime.now().year)}
+    inputs: dict[str, str]  = {"motion": "There needs to be strict regulations on LLMs"}
     try:
         Debate().crew().train(
             n_iterations=int(sys.argv[1]), filename=sys.argv[2], inputs=inputs
