@@ -1,6 +1,7 @@
 # Environments
 env/
 .env/
+c
 
 # Python cache
 __pycache__/
