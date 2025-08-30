@@ -2,11 +2,14 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import Any, List
-from pydantic import Field
+from pydantic import BaseModel, Field
 from crewai_tools import SerperDevTool
 
+# from stock_picker.tools.push_tool import PushNotificationTool
+from stock_picker.tools.send_mail import SendMailTool
 
-class TrendingCompany(BaseAgent):
+
+class TrendingCompany(BaseModel):
     """A company that is in the news and attracting attention"""
 
     name: str = Field(description="The name of the company")
@@ -14,7 +17,7 @@ class TrendingCompany(BaseAgent):
     reason: str = Field(description="The reason why the company is trending")
 
 
-class TrendingCompanyList(BaseAgent):
+class TrendingCompanyList(BaseModel):
     """A list of multiple trending companies that are in the news"""
 
     companies: List[TrendingCompany] = Field(
@@ -22,7 +25,7 @@ class TrendingCompanyList(BaseAgent):
     )
 
 
-class TrendingCompanyResearch(BaseAgent):
+class TrendingCompanyResearch(BaseModel):
     """A company that has been researched and analyzed"""
 
     name: str = Field(description="Company name")
@@ -35,7 +38,7 @@ class TrendingCompanyResearch(BaseAgent):
     )
 
 
-class TrendingCompanyResearchList(BaseAgent):
+class TrendingCompanyResearchList(BaseModel):
     """A list of multiple companies that have been researched and analyzed"""
 
     companies: List[TrendingCompanyResearch] = Field(
@@ -74,6 +77,7 @@ class StockPicker:
     def stock_picker(self) -> Agent:
         return Agent(
             config=self.agents_config["stock_picker"],  # type: ignore[index]
+            tools=[SendMailTool()],
         )
 
     @task
@@ -100,7 +104,7 @@ class StockPicker:
     def crew(self) -> Crew:
         """Creates the StockPicker crew"""
 
-        manager = Agent(
+        manager: Agent = Agent(
             config=self.agents_config["manager"],  # type: ignore[index]
             allow_delegation=True,
         )
