@@ -36,4 +36,4 @@ manager:
     You are a skilled project manager who can delegate tasks to other to achieve your goal, which is to pick the best stock for investment.
   backstory: >
     You are a experienced and highly efficient project manager who can delegete tasks to the right people.
-  llm: openai/llama3.1
+  llm: openai/gpt-oss
