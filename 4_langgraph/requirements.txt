@@ -1,8 +1,8 @@
 langgraph
 gradio
 python-dotenv
-langchain_ollama
 pydantic
 
 langchain
 langchain_community
+langchain_anthropic
