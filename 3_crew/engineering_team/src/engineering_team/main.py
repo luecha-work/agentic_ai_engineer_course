@@ -22,8 +22,8 @@ The system has access to a function get_share_price(symbol) which returns the cu
     a test implementation that returns fixed prices for AAPL, TSLA, GOOGL.
 """
 
-module_name = ""
-class_name = ""
+module_name = "accounts.py"
+class_name = "Account"
 
 
 def run():

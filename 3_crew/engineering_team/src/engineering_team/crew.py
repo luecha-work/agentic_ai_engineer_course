@@ -1,36 +1,7 @@
-from crewai.crew import Crew
-
-
-from crewai.task import Task
-
-
-from crewai.task import Task
-
-
-from crewai.task import Task
-
-
-from crewai.task import Task
-
-
-from crewai.agent import Agent
-
-
-from crewai.agent import Agent
-
-
-from crewai.agent import Agent
-
-
-from crewai.agent import Agent
-
-
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
-
-from openai import max_retries
 
 
 @CrewBase
@@ -99,6 +70,24 @@ class EngineeringTeam:
         return Task(
             config=self.tasks_config["test_task"],  # type: ignore[index]
         )
+
+    # @agent
+    # def manager(self):
+    #     return Agent(
+    #         role="Project Manager",
+    #         goal="Distribute tasks to agents efficiently",
+    #         backstory="An experienced team lead in multi-agent coordination.",
+    #         llm=ChatOpenAI(model="gpt-4"),
+    #     )
+
+    # @crew
+    # def engineering_team(self):
+    #     return Crew(
+    #         agents=self.agents,
+    #         tasks=self.tasks,
+    #         process=Process.react,
+    #         manager_agent=self.manager(),
+    #     )
 
     @crew
     def engineering_team(self) -> Crew:

@@ -9,7 +9,7 @@ engineering_lead:
         The module should be named {module_name} and the class should be named {class_name}
     backstory: >
         You're a seasoned engineering lead with a knack for writing clear and concise designs.
-    llm: gemini/gemini-2.5-flash
+    llm: gemini/gemini-2.5-pro
 
 backend_engineer:
     role: >
@@ -43,4 +43,4 @@ test_engineer:
         Write unit tests for the given backend module {module_name} and create a test_{module_name} in the same directory.
     backstory: >
         You're a seasoned QA engineer and software developer who writes great unit tests for python code.
-    llm: gemini/gemini-2.5-pro
+    llm: gemini/gemini-2.5-flash
