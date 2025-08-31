@@ -1,9 +1,22 @@
+import os
+from crewai import memory
+from crewai.memory.long_term.long_term_memory import LongTermMemory
+
+
+from crewai.memory.short_term.short_term_memory import ShortTermMemory
+
+
+from chromadb import config
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import Any, List
 from pydantic import BaseModel, Field
 from crewai_tools import SerperDevTool
+
+from crewai.memory import LongTermMemory, ShortTermMemory, EntityMemory
+from crewai.memory.storage.rag_storage import RAGStorage
+from crewai.memory.storage.ltm_sqlite_storage import LTMSQLiteStorage
 
 # from stock_picker.tools.push_tool import PushNotificationTool
 from stock_picker.tools.send_mail import SendMailTool
@@ -71,6 +84,7 @@ class StockPicker:
     def financial_researcher(self) -> Agent:
         return Agent(
             config=self.agents_config["financial_researcher"],  # type: ignore[index]
+            tools=[SerperDevTool()],
         )
 
     @agent
@@ -109,10 +123,49 @@ class StockPicker:
             allow_delegation=True,
         )
 
+        # Add short term memory to the crew
+        short_term_memory: ShortTermMemory = ShortTermMemory(
+            storage=RAGStorage(
+                embedder_config={
+                    "provider": "google",
+                    "config": {
+                        "model": "text-embedding-004",
+                        "api_key": os.getenv("GEMINI_API_KEY"),
+                    },
+                },
+                type="short_term",
+                path="./memory/",
+            )
+        )
+
+        # Add long term memory to the crew
+        long_term_memory: LongTermMemory = LongTermMemory(
+            storage=LTMSQLiteStorage(db_path="./memory/long_term_memory_storage.db")
+        )
+
+        # Add entity memory to the crew
+        entity_memory: EntityMemory = EntityMemory(
+            storage=RAGStorage(
+                embedder_config={
+                    "provider": "google",
+                    "config": {
+                        "model": "text-embedding-004",
+                        "api_key": os.getenv("GEMINI_API_KEY"),
+                    },
+                },
+                type="short_term",
+                path="./memory/",
+            )
+        )
+
         return Crew(
             agents=self.agents,
             tasks=self.tasks,
             process=Process.hierarchical,
-            verbose=True,
+            memory=True,
             manager_agent=manager,
+            short_term_memory=short_term_memory,
+            long_term_memory=long_term_memory,
+            entity_memory=entity_memory,
+            verbose=True,
         )
