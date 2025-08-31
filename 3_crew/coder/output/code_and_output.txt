@@ -1,5 +1,35 @@
-# Python code to print "hello world"
-print("hello world")
+```
+# Code to calculate the sum of the first 10,000 terms of the Leibniz series
+# (1 - 1/3 + 1/5 - 1/7 + ...) and then multiply by 4.
 
-# Output of the code:
-hello world
+total_sum = 0.0
+num_terms = 10000
+
+# Loop through the first 'num_terms' to calculate the sum
+for i in range(num_terms):
+    # Calculate the denominator for the current term.
+    # For the 1st term (i=0), denominator is 2*0 + 1 = 1.
+    # For the 2nd term (i=1), denominator is 2*1 + 1 = 3.
+    # For the 3rd term (i=2), denominator is 2*2 + 1 = 5.
+    # And so on.
+    denominator = 2 * i + 1
+    
+    # Calculate the value of the current term.
+    term_value = 1.0 / denominator
+    
+    # Apply the alternating sign.
+    # Terms with even 'i' (0-indexed) are positive (1st, 3rd, 5th terms...).
+    # Terms with odd 'i' (0-indexed) are negative (2nd, 4th, 6th terms...).
+    if i % 2 == 0:
+        total_sum += term_value
+    else:
+        total_sum -= term_value
+
+# Multiply the total sum by 4 as required by the problem.
+result = total_sum * 4
+
+# Print the final result.
+print(f"The calculated value for the first {num_terms} terms multiplied by 4 is: {result}")
+```
+Output:
+The calculated value for the first 10000 terms multiplied by 4 is: 3.1414926535900345
