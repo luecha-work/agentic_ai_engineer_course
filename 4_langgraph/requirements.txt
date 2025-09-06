@@ -3,6 +3,10 @@ gradio
 python-dotenv
 pydantic
 
+getpass4
+
 langchain
+langchain_google_genai
 langchain_community
 langchain_anthropic
+langgraph-checkpoint-sqlite
