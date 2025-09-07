@@ -10,6 +10,7 @@ from langchain_experimental.tools import PythonREPLTool
 from langchain_community.utilities import GoogleSerperAPIWrapper
 from langchain_community.utilities.wikipedia import WikipediaAPIWrapper
 import getpass4
+import wikipedia
 
 load_dotenv(override=True)
 
@@ -48,9 +49,15 @@ async def other_tools():
         func=serper.run,
         description="Use this tool when you want to get the results of an online web search"
     )
+    
+    wikipedia.set_lang("en")  # หรือ "th" ถ้าต้องการภาษาไทย
 
-    wikipedia = WikipediaAPIWrapper()
-    wiki_tool = WikipediaQueryRun(api_wrapper=wikipedia)
+    wiki = WikipediaAPIWrapper(
+        wiki_client=wikipedia,           # ส่ง client ให้ wrapper
+        top_k_results=3,
+        doc_content_chars_max=2000
+    )
+    wiki_tool = WikipediaQueryRun(api_wrapper=wiki)
 
     python_repl = PythonREPLTool()
     
