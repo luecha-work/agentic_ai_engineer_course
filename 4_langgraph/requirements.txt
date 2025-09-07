@@ -10,5 +10,6 @@ langchain_google_genai
 langchain_community
 langchain_anthropic
 langgraph-checkpoint-sqlite
+langchain_experimental
 
 beautifulsoup4
